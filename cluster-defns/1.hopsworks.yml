@@ -2,10 +2,10 @@ name: HopsworksVagrantSingleNode
 baremetal:
     username: vagrant
 
-cookbooks:
-  hopsworks:
-    github: hopshadoop/hopsworks-chef
-    branch: master
+cookbooks:       
+  hopsworks:                                                                     
+    github: "aegisbigdata/hopsworks-chef"
+    branch: "aegis"  
 
 attrs:
   install:
@@ -16,9 +16,10 @@ attrs:
     network:
       interface: enp0s3
   hopsworks:
+    ear_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ear.ear
+    war_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks.war
+    ca_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ca.war
     port: 8080
-  conda:
-    mirror_list: "http://bbc2.sics.se:8000/pkgs/main/linux-64,http://bbc2.sics.se:8000/pkgs/main/noarch"
 groups:
   namenodes:
     size: 1
