@@ -5,8 +5,8 @@ baremetal:
 
 cookbooks:
   hopsworks:                                                                     
-    github: "{github}"
-    branch: "{branch}"
+    github: "hopshadoop/hopsworks-chef"
+    branch: "master"
 
 attrs:
   install:
@@ -15,42 +15,17 @@ attrs:
   kagent:
     network:
       interface: enp0s3
-  dela:
-    port: {delaport1}
-    stun_port1: {delaport2}
-    stun_port2: {delaport3}
-    http_port: {delaport4}
-    hops: 
-      storage:
-        type: "HDFS"
-      library:
-        type: "DISK"
-    stun_servers_ip: ["193.10.64.107","193.10.64.85"]
-    stun_servers_id: ["1","2"]
   hopsworks:
-    port: 8080
-    email: "{hsemail}"
-    ear_url: {sourcecode}/hopsworks-ear.ear
-    war_url: {sourcecode}/hopsworks.war
-    ca_url: {sourcecode}/hopsworks-ca.war
+    ear_url: http://snurran.sics.se/hops/hopsworks/0.1.0/hopsworks-ear.ear
+    war_url: http://snurran.sics.se/hops/hopsworks/0.1.0/hopsworks.war
+    ca_url: http://snurran.sics.se/hops/hopsworks/0.1.0/hopsworks-ca.war
+    email: "mycompany@gmail.com"
     cert:
-      o: "{company}"
-      ou: "{unit}"
+      o: "mycompany"
     dela:
-      enabled: true
-      cluster_http_port: {delaport4}
-      public_hopsworks_port: {port4}
-    hopssite:
-      domain: "{hsdomain}"
-      port: {hsport2}
-      heartbeat: 600000
+      demo: true
   hopssite:
-    url: "http://{hsdomain}:{hsport4}"
-    retry_interval: 30
-    max_retries: 5
-    manual_register: false
-    password: "{hspassword}"
-
+    password: "myregisterpassword"
 groups:
   dela:
     size: 1
