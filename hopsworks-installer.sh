@@ -36,7 +36,7 @@ PARAM_INSTALL_DIR=0
 PARAM_CLEAN_INSTALL_DIR=0
 SCRIPTNAME=`basename $0`
 SSH_PORT=22
-KARAMEL_VERSION=0.3
+KARAMEL_VERSION=0.4
 
 #ECHO_OUT="2>&1 > /dev/null"
 ECHO_OUT="2>&1 > /tmp/hopsworks-installer.log"
@@ -257,7 +257,6 @@ while [ $# -gt 0 ]; do    # Until you run out of parameters . . .
     -d|--dir)
 	      shift
 	      PARAM_INSTALL_DIR=1
-#	      DIRNAE=$1
 	      ;;
     -ni|--non-interactive)
 	      NON_INTERACT=1
