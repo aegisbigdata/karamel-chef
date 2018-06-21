@@ -129,9 +129,16 @@ c.NotebookApp.tornado_settings = {
     }
 }
 ```
+Fixed in: https://github.com/aegisbigdata/hopsworks/commit/9ffd3098498fec5b8a89d7428467cfa43ef3522a
 
 4.
 ```
 pip install --user pyarrow
 pip install --user fastparquet
 ```
+# Spark common lang lib fix:
+Replace the hops-util lib within hdfs, with the snurran versison 0.4.1(as version 0.4.0)
+```
+/user/spark/hops-util-0.4.0.jar
+```
+    
