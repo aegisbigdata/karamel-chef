@@ -40,7 +40,7 @@ attrs:
       cluster_http_port: 58580
       public_hopsworks_port: 8080
     hopssite:
-      domain: "bbc5.sics.se"
+      domain: "bbc6.sics.se"
       port: 50081
       register_port: 8080
       heartbeat: 600000
