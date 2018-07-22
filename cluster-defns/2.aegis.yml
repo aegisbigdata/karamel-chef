@@ -1,0 +1,130 @@
+name: hops_bbc_aegis
+baremetal:
+  username: demouser
+
+cookbooks:
+  hopsworks:
+    github: "aegisbigdata/hopsworks-chef"
+    branch: "aegis"                                       
+
+attrs:
+  install:
+    dir: /srv/hops
+  kagent:
+    network:
+       interface: ens1f1
+    dashboard:
+       ip: 172.16.0.6
+       port: 8080
+  ntp:
+    install: true
+  tensorflow:
+    install: dist
+    mpi: true
+    rdma: false
+  mysql:
+    user: "aegis"
+    password: "replace_me"
+  hops:
+    cgroups: true
+    hdfs:
+      blocksize: 128m
+    yarn:
+      rm_heartbeat: 1000
+      memory_mbs: 216000
+      vcores: 22
+      max_vcores: 22
+    dn:
+      data_dir: "/srv/hops/hopsdata"
+      data_dir_permissions: 755
+    nn:
+      heap_size: '2500'
+      direct_memory_size: '1500'
+  hopsworks:
+    max_mem: 6000
+    admin:
+        user: "adminuser"
+        password: "replace_me"
+    email: "aegisbigdata2@gmail.com"
+    email_password: "replace_me"
+    ear_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ear.ear
+    war_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks.war
+    ca_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ca.war
+    port: 8080
+    dela:
+      enabled: true
+      client: FULL_CLIENT
+      cluster_http_port: 58580
+      public_hopsworks_port: 8080
+    hopssite:
+      domain: "bbc6.sics.se"
+      port: 50081
+      register_port: 8080
+      heartbeat: 600000
+  hopssite:
+    user: "delahs@gmail.com"
+    password: "replace_me"
+    cert:
+      o: "hopsworks"
+      ou: "hs"
+    url: "http://bbc6.sics.se:8080"
+    retry_interval: 30
+    max_retries: 5
+    manual_register: true
+  dela:
+    version: 0.1.0
+    port: 58581
+    stun_port1: 58582
+    stun_port2: 58583
+    http_port: 58580
+    hops:
+      storage:
+        type: "HDFS"
+      library:
+        type: "DISK"
+    stun_servers_ip: ["193.10.64.107","193.10.64.85"]
+    stun_servers_id: ["1","2"]
+    url: http://snurran.sics.se/hops/alex/dela/0.1.0/dela.jar
+groups:
+  worker:
+     baremetal:
+       ip: 172.16.0.7
+     size: 1
+     recipes:
+       - kagent
+       - hadoop_spark::yarn
+       - tensorflow
+       - hops::nm
+       - hops::dn
+       - hopsmonitor::telegraf
+  driver:
+     baremetal:
+       ip: 172.16.0.6
+     size: 1
+     recipes:
+      - kagent
+      - ndb::mgmd
+      - ndb::ndbd
+      - ndb::mysqld
+      - hops::ndb
+      - hops::rm
+      - hops::nn
+      - hops::jhs
+      - hadoop_spark::yarn
+      - hadoop_spark::historyserver
+      - flink::yarn
+      - elastic
+      - livy
+      - zeppelin
+      - kzookeeper
+      - kkafka
+      - epipe
+      - hopsworks
+      - hopsworks::hopssite
+      - hopsmonitor
+      - hopslog
+      - tensorflow
+      - hopsmonitor::telegraf
+      - hive2
+      - dela
+      
