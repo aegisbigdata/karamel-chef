@@ -142,3 +142,9 @@ Replace the hops-util lib within hdfs, with the snurran versison 0.4.1(as versio
 /user/spark/hops-util-0.4.0.jar
 ```
     
+# Out of extent error fix (Fixed in 2.8.2.4)
+
+Increase the preallocated disk space in the script /srv/hops/mysql-cluster/ndb/scripts/create-disk-tables.sh
+by changing the dc parameter at the end of the command, the number is in GB, and then run the script.
+
+
