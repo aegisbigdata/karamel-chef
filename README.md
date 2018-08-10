@@ -147,4 +147,9 @@ Replace the hops-util lib within hdfs, with the snurran versison 0.4.1(as versio
 Increase the preallocated disk space in the script /srv/hops/mysql-cluster/ndb/scripts/create-disk-tables.sh
 by changing the dc parameter at the end of the command, the number is in GB, and then run the script.
 
+# NDB Out of memory
+
+Increase the DataMemory to 20GB, the IndexMemory to 10GB, and the MaxNoOfExecutionThreads to 4.
+
+
 
