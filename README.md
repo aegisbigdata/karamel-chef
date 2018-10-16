@@ -149,7 +149,7 @@ by changing the dc parameter at the end of the command, the number is in GB, and
 
 # NDB Out of memory
 
-Increase the DataMemory to 20GB, the IndexMemory to 10GB, and the MaxNoOfExecutionThreads to 4.
+Increase the DataMemory to 20GB, the IndexMemory to 10GB, and the MaxNoOfExecutionThreads to 4 in the config.ini file inside the mysql-cluster installation (/srv/hops/mysql-cluster/).
 
 
 
