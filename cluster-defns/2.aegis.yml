@@ -4,8 +4,8 @@ baremetal:
 
 cookbooks:
   hopsworks:
-    github: "aegisbigdata/hopsworks-chef"
-    branch: "aegis"                                       
+    github: "logicalclocks/hopsworks-chef"
+    branch: "0.6"                                     
 
 attrs:
   install:
@@ -47,9 +47,9 @@ attrs:
         password: "replace_me"
     email: "aegisbigdata2@gmail.com"
     email_password: "replace_me"
-    ear_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ear.ear
-    war_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks.war
-    ca_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ca.war
+#    ear_url: http://snurran.sics.se/hops/aegis/0.6/hopsworks-ear.ear
+#    war_url: http://snurran.sics.se/hops/aegis/0./hopsworks.war
+#    ca_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ca.war
     port: 8080
     dela:
       enabled: true
@@ -97,6 +97,7 @@ groups:
        - hops::nm
        - hops::dn
        - hopsmonitor::telegraf
+       - hopslog::_filebeat-spark
   driver:
      baremetal:
        ip: 172.16.0.6
@@ -120,6 +121,7 @@ groups:
       - kkafka
       - epipe
       - hopsworks
+      - hopsworks::dev
       - hopsworks::hopssite
       - hopsmonitor
       - hopslog
@@ -127,4 +129,5 @@ groups:
       - hopsmonitor::telegraf
       - hive2
       - dela
+      - hopslog::_filebeat-serving
       
