@@ -2,58 +2,23 @@ name: HopsworksVagrantSingleNode
 baremetal:
     username: vagrant
 
-cookbooks:       
-  hopsworks:                                                                     
-    github: "aegisbigdata/hopsworks-chef"
-    branch: "aegis"  
+cookbooks:
+  hopsworks:
+    github: logicalclocks/hopsworks-chef
+    branch: master
 
 attrs:
   install:
     dir: /srv/hops
     # upgrade: false
-    user: vagrant
+    # user: vagrant
   kagent:
     network:
       interface: enp0s3
-  dela:
-    version: 0.1.0
-    port: 58581
-    stun_port1: 58582
-    stun_port2: 58583
-    http_port: 58580
-    hops:
-      storage:
-        type: "HDFS"
-      library:
-        type: "DISK"
-    stun_servers_ip: ["193.10.64.107","193.10.64.85"]
-    stun_servers_id: ["1","2"]
-    url: http://snurran.sics.se/hops/alex/dela/0.1.0/dela.jar
   hopsworks:
-    ear_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ear.ear
-    war_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks.war
-    ca_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ca.war
     port: 8080
-    dela:
-      enabled: true
-      client: FULL_CLIENT
-      cluster_http_port: 58580
-      public_hopsworks_port: 8080
-    hopssite:
-      domain: "bbc6.sics.se"
-      port: 50081
-      register_port: 8080
-      heartbeat: 600000
-  hopssite:
-    user: "delahs@gmail.com"
-    password: "Abcd1234"
-    cert:
-      o: "hopsworks"
-      ou: "hs"
-    url: "http://bbc6.sics.se:8080"
-    retry_interval: 30
-    max_retries: 5
-    manual_register: true
+  conda:
+    mirror_list: "http://bbc2.sics.se:8000/pkgs/main/linux-64,http://bbc2.sics.se:8000/pkgs/main/noarch"
 groups:
   namenodes:
     size: 1
@@ -61,6 +26,7 @@ groups:
       ip: 10.0.2.15
     recipes:
       - kagent
+      - conda
       - ndb::mgmd
       - ndb::ndbd
       - ndb::mysqld
@@ -79,12 +45,12 @@ groups:
       - epipe
       - hopsworks
       - hopsworks::dev
-      - hopsworks::hopssite
       - hopsmonitor
       - hopslog
+      - hopslog::_filebeat-spark
+      - hopslog::_filebeat-serving
       - hops::dn
       - hops::nm
       - tensorflow
       - hopsmonitor::telegraf
       - hive2
-      - dela

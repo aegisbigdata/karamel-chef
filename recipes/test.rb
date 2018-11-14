@@ -19,6 +19,13 @@ when 'centos'
   end
 end
 
+elastic_endpoint=""
+case node['platform']
+when 'ubuntu'
+  elastic_endpoint="#{node[:karamel][:default][:private_ips][2]}:9200"
+when 'centos'
+  elastic_endpoint="#{node[:karamel][:default][:private_ips][0]}:9200"
+end
 
 # Copy the environment configuration in the test directory
 template "#{node['test']['hopsworks']['test_dir']}/.env" do
@@ -26,6 +33,11 @@ template "#{node['test']['hopsworks']['test_dir']}/.env" do
   owner "vagrant"
   group "vagrant"
   mode 0755
+  variables(lazy {
+    h = {}
+    h['elastic_endpoint'] = elastic_endpoint
+    h
+  })
 end
 
 # Delete form workspace preivous test results
@@ -40,8 +52,10 @@ when 'ubuntu'
     user "root"
     ignore_failure true
     cwd node['test']['hopsworks']['test_dir']
+    timeout node['karamel']['test_timeout']
     environment ({'PATH' => "#{ENV['PATH']}:/home/vagrant/.gem/ruby/2.3.0/bin:/srv/hops/mysql/bin",
-                  'LD_LIBRARY_PATH' => "#{ENV['LD_LIBRARY_PATH']}:/srv/hops/mysql/lib"})
+                  'LD_LIBRARY_PATH' => "#{ENV['LD_LIBRARY_PATH']}:/srv/hops/mysql/lib",
+                  'JAVA_HOME' => "/usr/lib/jvm/default-java"})
     code <<-EOH
       bundle install
       rspec --format RspecJunitFormatter --out #{node['test']['hopsworks']['report_dir']}/ubuntu.xml
@@ -52,9 +66,11 @@ when 'centos'
   bash "dependencies_tests" do
     user "root"
     ignore_failure true
+    timeout node['karamel']['test_timeout']
     cwd node['test']['hopsworks']['test_dir']
     environment ({'PATH' => "#{ENV['PATH']}:/usr/local/bin:/srv/hops/mysql/bin",
-                  'LD_LIBRARY_PATH' => "#{ENV['LD_LIBRARY_PATH']}:/srv/hops/mysql/lib"})
+                  'LD_LIBRARY_PATH' => "#{ENV['LD_LIBRARY_PATH']}:/srv/hops/mysql/lib",
+                  'JAVA_HOME' => "/usr/lib/jvm/java"})
     code <<-EOH
       set -e
       source /usr/local/rvm/scripts/rvm

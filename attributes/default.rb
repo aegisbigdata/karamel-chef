@@ -8,6 +8,7 @@ default['karamel']['bin_file']        = "#{node['karamel']['base_dir']}/bin/kara
 default['karamel']['output_dir']      = "/home/vagrant/.karamel"
 
 default['karamel']['run_timeout']     = 36000
+default['karamel']['test_timeout']    = 9000
 
 default['cluster_def']                = "/home/vagrant/cluster.yml"
 default['region']                     = "se"
@@ -19,8 +20,6 @@ default['test']['hopsworks']['branch']      = "master"
 default['test']['hopsworks']['base_dir']    = "/home/vagrant/hopsworks"
 default['test']['hopsworks']['test_dir']    = "#{node['test']['hopsworks']['base_dir']}/hopsworks-ear/test"
 default['test']['hopsworks']['report_dir']      = "/home/vagrant/test_report"
-
-default['test']['anaconda_cache']['version'] = "5.0.1"
 
 default['java']['jdk_version'] = '8'
 default['java']['install_flavor'] = 'oracle'

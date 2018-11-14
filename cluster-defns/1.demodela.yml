@@ -5,7 +5,7 @@ baremetal:
 
 cookbooks:
   hopsworks:
-    github: "hopshadoop/hopsworks-chef"
+    github: "logicalclocks/hopsworks-chef"
     branch: "master"
 
 attrs:
@@ -31,6 +31,7 @@ groups:
       ip: 10.0.2.15
     recipes:
       - kagent
+      - conda
       - ndb::mgmd
       - ndb::ndbd
       - ndb::mysqld

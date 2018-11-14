@@ -1,3 +1,4 @@
+
 Vagrant.configure("2") do |config|
 
     config.ssh.insert_key = false
@@ -7,45 +8,51 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = 'hopsworks0.logicalclocks.com'
     config.vm.boot_timeout =3600
 
-    config.vm.network :forwarded_port, guest: 22, host: 10022, id: "ssh"
+    config.vm.network :forwarded_port, guest: 22, host: 21500, id: "ssh"
     # MySQL Server
-    config.vm.network(:forwarded_port, {:guest=>3306, :host=>3306})
+    config.vm.network(:forwarded_port, {:guest=>3306, :host=>22500})
     # karamel http
-    config.vm.network(:forwarded_port, {:guest=>9090, :host=>9090})
+    config.vm.network(:forwarded_port, {:guest=>9090, :host=>23500})
     # Hopsworks http
     config.vm.network(:forwarded_port, {:guest=>8080, :host=>8080})
     # Hopsworks https
     config.vm.network(:forwarded_port, {:guest=>8181, :host=>8181})
     # Glassfish debug port
-    config.vm.network(:forwarded_port, {:guest=>9009, :host=>9009})
+    config.vm.network(:forwarded_port, {:guest=>9009, :host=>24500})
     # Glassfish admin UI
     config.vm.network(:forwarded_port, {:guest=>4848, :host=>4848})
     # Yarn RM
-    #config.vm.network(:forwarded_port, {:guest=>8088, :host=>8088})
+    #config.vm.network(:forwarded_port, {:guest=>8088, :host=>25500})
     # Kibana
-    config.vm.network(:forwarded_port, {:guest=>5601, :host=>5601})
+    config.vm.network(:forwarded_port, {:guest=>5601, :host=>26500})
     # Grafana Webserver
-    config.vm.network(:forwarded_port, {:guest=>3000, :host=>3000})
+    config.vm.network(:forwarded_port, {:guest=>3000, :host=>27500})
     # Nodemanager
-    config.vm.network(:forwarded_port, {:guest=>8083, :host=>8083})
+    config.vm.network(:forwarded_port, {:guest=>8083, :host=>28500})
     # Influx DB admin (because of clash with nodemanager)
-    config.vm.network(:forwarded_port, {:guest=>8084, :host=>8084})
+    config.vm.network(:forwarded_port, {:guest=>8084, :host=>29500})
     # Influx DB REST API
-    config.vm.network(:forwarded_port, {:guest=>8086, :host=>8086})
+    config.vm.network(:forwarded_port, {:guest=>8086, :host=>30500})
     # Graphite Endpoint
-    config.vm.network(:forwarded_port, {:guest=>2003, :host=>2003})
+    config.vm.network(:forwarded_port, {:guest=>2003, :host=>31500})
     # Jupyter
-    config.vm.network(:forwarded_port, {:guest=>8888, :host=>8888})
+    config.vm.network(:forwarded_port, {:guest=>8888, :host=>32500})
     # membrane proxy
-    config.vm.network(:forwarded_port, {:guest=>11112, :host=>11112})
+    config.vm.network(:forwarded_port, {:guest=>11112, :host=>33500})
     # airflow
-    config.vm.network(:forwarded_port, {:guest=>12358, :host=>12358})    
+    config.vm.network(:forwarded_port, {:guest=>12358, :host=>34500})    
     # rstudio
-    config.vm.network(:forwarded_port, {:guest=>8787, :host=>8787})    
+    config.vm.network(:forwarded_port, {:guest=>8787, :host=>35500})    
     # Dela udp ports
-    config.vm.network(:forwarded_port, {:guest=>42011, :host=>42011, :protocol=>"udp"})
-    config.vm.network(:forwarded_port, {:guest=>42012, :host=>42012, :protocol=>"udp"})
-    config.vm.network(:forwarded_port, {:guest=>42013, :host=>42013, :protocol=>"udp"})
+    config.vm.network(:forwarded_port, {:guest=>58581, :host=>58581, :protocol=>"udp"})
+    config.vm.network(:forwarded_port, {:guest=>58582, :host=>58582, :protocol=>"udp"})
+    config.vm.network(:forwarded_port, {:guest=>58583, :host=>58583, :protocol=>"udp"})
+    # Hops Site - glassfish admin port
+    config.vm.network(:forwarded_port, {:guest=>50048, :host=>50048})
+    # Hops Site - https port
+    config.vm.network(:forwarded_port, {:guest=>50081, :host=>50081})
+    # Hops Site - glassfish debug port
+    config.vm.network(:forwarded_port, {:guest=>50009, :host=>50009})
 
     config.vm.provision "file", source: "cluster.yml", destination: "cluster.yml"
     config.vm.provision "file", source: "~/.vagrant.d/insecure_private_key", destination: "~/.ssh/id_rsa"
@@ -53,20 +60,20 @@ Vagrant.configure("2") do |config|
 
     config.vm.provider :virtualbox do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      v.customize ["modifyvm", :id, "--memory", 15548]
+      v.customize ["modifyvm", :id, "--memory", 204800]
       v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       v.customize ["modifyvm", :id, "--nictype1", "virtio"]
       v.customize ["modifyvm", :id, "--name", "hopsworks0"]
-      v.customize ["modifyvm", :id, "--cpus", "5"]
+      v.customize ["modifyvm", :id, "--cpus", "20"]
     end
 
     config.vm.provision :chef_solo do |chef|
         chef.cookbooks_path = "cookbooks"
         chef.json = {
           "karamel" => {
-        "default" =>      {
+	    "default" =>      {
               "private_ips" => ["10.0.2.15"]
-        },
+	    },
           },
         }
         chef.add_recipe "karamel::install"

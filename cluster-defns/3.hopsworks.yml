@@ -4,7 +4,7 @@ baremetal:
 
 cookbooks:
   hopsworks:
-    github: "hopshadoop/hopsworks-chef"
+    github: "logicalclocks/hopsworks-chef"
     branch: "master"
 
 attrs:
@@ -24,6 +24,7 @@ groups:
       ip: 192.168.56.101
     recipes:
       - kagent
+      - conda
       - ndb::mgmd
       - ndb::mysqld
       - hops::ndb
@@ -44,12 +45,14 @@ groups:
       - livy
       - hive2
       - kagent::dev
+      - hopslog::_filebeat-serving
   datanode1:
     size: 1
     baremetal:
       ip: 192.168.56.102
     recipes:
       - kagent
+      - conda
       - ndb::ndbd
       - ndb::mysqld
       - hops::ndb
@@ -60,6 +63,7 @@ groups:
       - epipe
       - hadoop_spark::yarn
       - hopsmonitor::telegraf
+      - hopslog::_filebeat-spark
       - tensorflow
   datanode2:
     size: 1
@@ -67,6 +71,7 @@ groups:
       ip: 192.168.56.103
     recipes:
       - kagent
+      - conda
       - ndb::ndbd
       - kzookeeper
       - elastic
@@ -75,4 +80,5 @@ groups:
       - kkafka
       - hadoop_spark::yarn
       - hopsmonitor::telegraf
+      - hopslog::_filebeat-spark
       - tensorflow
