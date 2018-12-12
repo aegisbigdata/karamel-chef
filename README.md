@@ -151,5 +151,49 @@ by changing the dc parameter at the end of the command, the number is in GB, and
 
 Increase the DataMemory to 20GB, the IndexMemory to 10GB, and the MaxNoOfExecutionThreads to 4 in the config.ini file inside the mysql-cluster installation (/srv/hops/mysql-cluster/).
 
+# Temporary fixes:
+## python-highcharts
+Error:
+```
+highcharts.src.js:28370 Uncaught TypeError: (e.series || []).forEach is not a function
+    at a.Chart.firstRender (VM1982 highcharts.js:283)
+    at a.Chart.<anonymous> (VM1982 highcharts.js:257)
+    at a.fireEvent (VM1982 highcharts.js:31)
+    at a.Chart.init (VM1982 highcharts.js:256)
+    at a.Chart.getArgs (VM1982 highcharts.js:256)
+    at new a.Chart (VM1982 highcharts.js:255)
+    at HTMLDocument.<anonymous> (VM1986 about:srcdoc:1)
+    at c (VM1981 jquery.min.js:3)
+    at Object.fireWith [as resolveWith] (VM1981 jquery.min.js:3)
+    at Function.ready (VM1981 jquery.min.js:3)
+```
+Problem: Version mismatch
+Temporary Fix:
 
-
+file /srv/hops/jupyter/.local/lib/python2.7/site-packages/highcharts/highcharts/highcharts.py
+lines 71-74:
+```
+'https://code.highcharts.com/6.2.0/highcharts.js',
+'https://code.highcharts.com/6.2.0/highcharts-more.js',
+'https://code.highcharts.com/6.2.0/modules/heatmap.js',
+'https://code.highcharts.com/6.2.0/modules/exporting.js'
+```
+line 210:
+```
+self.add_JSsource('http://code.highcharts.com/6.2.0/modules/treemap.js')
+```
+line 295:
+```
+self.add_JSsource("http://code.highcharts.com/6.2.0/highcharts-3d.js")
+```
+line 343:
+```
+self.add_JSsource('http://code.highcharts.com/6.2.0/modules/drilldown.js')
+```
+file /srv/hops/jupyter/.local/lib/python2.7/site-packages/highcharts/highstock/highstock.py
+lines 65-67:
+```
+'https://code.highcharts.com/stock/6.2.0/highstock.js',
+'https://code.highcharts.com/stock/6.2.0/modules/exporting.js',
+'https://code.highcharts.com/6.2.0/highcharts-more.js',
+```
