@@ -136,6 +136,14 @@ Fixed in: https://github.com/aegisbigdata/hopsworks/commit/9ffd3098498fec5b8a89d
 pip install --user pyarrow
 pip install --user fastparquet
 ```
+
+5. QGrid (https://github.com/quantopian/qgrid)
+```
+sudo pip install qgrid
+sudo jupyter nbextension install --py qgrid --sys-prefix
+sudo jupyter nbextension enable --py qgrid --sys-prefix
+```
+
 # Spark common lang lib fix:
 Replace the hops-util lib within hdfs, with the snurran versison 0.4.1(as version 0.4.0)
 ```
@@ -168,6 +176,7 @@ highcharts.src.js:28370 Uncaught TypeError: (e.series || []).forEach is not a fu
     at Function.ready (VM1981 jquery.min.js:3)
 ```
 Problem: Version mismatch
+
 Temporary Fix:
 
 file /srv/hops/jupyter/.local/lib/python2.7/site-packages/highcharts/highcharts/highcharts.py
