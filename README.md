@@ -1,7 +1,7 @@
 # karamel-chef
 This chef cookbook installs Karamel. Used by Vagrant to provision multi-node clusters.
 
-# Baremetal installation with karamel-ui
+# Baremetal installation with karamel-ui (version 0.6)
 Used a ubuntu 16.04 64bit from osboxes(http://www.osboxes.org/):
 https://drive.google.com/file/d/0B_HAFnYs6Ur-ZGdZYTNjMkxvM28/view?usp=sharing
 password: osboxes.org
@@ -60,19 +60,17 @@ sudo apt-get install git
 ```
 git clone https://github.com/aegisbigdata/karamel-chef 
 ```
-Change the install/baremetal users to your user (osboxes) in the cluster definition: `karamel-chef/cluster-defns/1.hopsworks.yml`
+Change the `baremetal/username` user to your user (osboxes) in the cluster definition: `karamel-chef/cluster-defns/1.aegis.yml`
 
-https://github.com/aegisbigdata/karamel-chef/blame/master/cluster-defns/1.hopsworks.yml#L3
+https://github.com/aegisbigdata/karamel-chef/blob/aegis/cluster-defns/1.aegis.yml#L3
 
-https://github.com/aegisbigdata/karamel-chef/blame/master/cluster-defns/1.hopsworks.yml#L13
+7. Get karamel (http://karamel.io) version 0.5:
 
-7. Get karamel (http://karamel.io) version 0.4:
-
-http://www.karamel.io/sites/default/files/downloads/karamel-0.4.tgz
+http://www.karamel.io/sites/default/files/downloads/karamel-0.5.tgz
 
 8. Run karamel:
 ```
-cd karamel-0.4
+cd karamel-0.5
 ./bin/karamel
 ```
 9. After running karamel it will automatically load in your browser under `localhost:9090/index.html`
@@ -92,11 +90,11 @@ Fix: Change the owner of `~/.local/bin` and `~/.local/lib` (recursively) to the 
 sudo chown -R osboxes:osboxes ~/.local/bin
 sudo chown -R osboxes:osboxes ~/.local/lib
 ```
-
-# Dela instructions
+# Custom installation - mainly for testing cluster
+## Dela instructions
 Follow the dela/README.md instructions
 
-# Visualization libraries
+## Visualization libraries
 1. Highcharts
 ```
 pip install --user python-highcharts
@@ -144,23 +142,23 @@ sudo jupyter nbextension install --py qgrid --sys-prefix
 sudo jupyter nbextension enable --py qgrid --sys-prefix
 ```
 
-# Spark common lang lib fix:
+## Spark common lang lib fix:
 Replace the hops-util lib within hdfs, with the snurran versison 0.4.1(as version 0.4.0)
 ```
 /user/spark/hops-util-0.4.0.jar
 ```
     
-# Out of extent error fix (Fixed in 2.8.2.4)
+## Out of extent error fix (Fixed in 2.8.2.4)
 
 Increase the preallocated disk space in the script /srv/hops/mysql-cluster/ndb/scripts/create-disk-tables.sh
 by changing the dc parameter at the end of the command, the number is in GB, and then run the script.
 
-# NDB Out of memory
+## NDB Out of memory
 
 Increase the DataMemory to 20GB, the IndexMemory to 10GB, and the MaxNoOfExecutionThreads to 4 in the config.ini file inside the mysql-cluster installation (/srv/hops/mysql-cluster/).
 
-# Temporary fixes:
-## python-highcharts
+## Temporary fixes:
+### python-highcharts
 Error:
 ```
 highcharts.src.js:28370 Uncaught TypeError: (e.series || []).forEach is not a function
