@@ -1,11 +1,11 @@
-name: HopsworksVagrantSingleNode
+name: HopsworksVagrantSingleNode08
 baremetal:
     username: vagrant
 
 cookbooks:
   hopsworks:
     github: logicalclocks/hopsworks-chef
-    branch: master
+    branch: 0.8
 
 attrs:
   install:
@@ -50,3 +50,4 @@ groups:
       - tensorflow
       - hopsmonitor::telegraf
       - hive2
+
