@@ -4,8 +4,8 @@ baremetal:
 
 cookbooks:
   hopsworks:
-    github: "logicalclocks/hopsworks-chef"
-    branch: "0.6"                                     
+    github: "aegisbigdata/hopsworks-chef"
+    branch: "aegis"                                     
 
 attrs:
   install:
@@ -47,9 +47,6 @@ attrs:
         password: "replace_me"
     email: "aegisbigdata2@gmail.com"
     email_password: "replace_me"
-#    ear_url: http://snurran.sics.se/hops/aegis/0.6/hopsworks-ear.ear
-#    war_url: http://snurran.sics.se/hops/aegis/0./hopsworks.war
-#    ca_url: http://snurran.sics.se/hops/aegis/0.4/hopsworks-ca.war
     port: 8080
     dela:
       enabled: true
@@ -91,19 +88,20 @@ groups:
        ip: 172.16.0.7
      size: 1
      recipes:
-       - kagent
-       - hadoop_spark::yarn
-       - tensorflow
-       - hops::nm
-       - hops::dn
-       - hopsmonitor::telegraf
-       - hopslog::_filebeat-spark
+      - kagent
+      - conda
+      - hops::dn
+      - hops::nm
+      - hadoop_spark::yarn
+      - hopslog::_filebeat-spark
+      - tensorflow
   driver:
      baremetal:
        ip: 172.16.0.6
      size: 1
      recipes:
       - kagent
+      - conda
       - ndb::mgmd
       - ndb::ndbd
       - ndb::mysqld
@@ -115,19 +113,16 @@ groups:
       - hadoop_spark::historyserver
       - flink::yarn
       - elastic
-      - livy
-      - zeppelin
-      - kzookeeper
       - kkafka
       - epipe
       - hopsworks
       - hopsworks::dev
-      - hopsworks::hopssite
       - hopsmonitor
-      - hopslog
       - tensorflow
-      - hopsmonitor::telegraf
+      - hopslog
+      - kzookeeper
+      - livy
       - hive2
-      - dela
       - hopslog::_filebeat-serving
+      - hops_airflow
       
