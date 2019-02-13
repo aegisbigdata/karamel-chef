@@ -18,10 +18,6 @@ attrs:
        port: 8080
   ntp:
     install: true
-  tensorflow:
-    install: dist
-    mpi: true
-    rdma: false
   mysql:
     user: "aegis"
     password: "replace_me"
@@ -58,30 +54,6 @@ attrs:
       port: 50081
       register_port: 8080
       heartbeat: 600000
-  hopssite:
-    user: "delahs@gmail.com"
-    password: "replace_me"
-    cert:
-      o: "hopsworks"
-      ou: "hs"
-    url: "http://bbc6.sics.se:8080"
-    retry_interval: 30
-    max_retries: 5
-    manual_register: true
-  dela:
-    version: 0.1.0
-    port: 58581
-    stun_port1: 58582
-    stun_port2: 58583
-    http_port: 58580
-    hops:
-      storage:
-        type: "HDFS"
-      library:
-        type: "DISK"
-    stun_servers_ip: ["193.10.64.107","193.10.64.85"]
-    stun_servers_id: ["1","2"]
-    url: http://snurran.sics.se/hops/alex/dela/0.1.0/dela.jar
 groups:
   worker:
      baremetal:
