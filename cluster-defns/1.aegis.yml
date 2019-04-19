@@ -1,4 +1,4 @@
-name: HopsworksVagrantSingleNodeRelease06
+name: AegisSingleNode
 baremetal:
     username: vagrant
 
@@ -13,11 +13,6 @@ attrs:
   kagent:
     network:
       interface: enp0s3
-  elastic:
-    projects:
-      reindex: true
-  hopsworks:
-    port: 8080
 groups:
   namenodes:
     size: 1
@@ -25,6 +20,7 @@ groups:
       ip: 10.0.2.15
     recipes:
       - kagent
+      - conda
       - ndb::mgmd
       - ndb::ndbd
       - ndb::mysqld
@@ -37,7 +33,6 @@ groups:
       - flink::yarn
       - elastic
       - livy
-      - zeppelin
       - kzookeeper
       - kkafka
       - epipe
@@ -50,5 +45,6 @@ groups:
       - hops::dn
       - hops::nm
       - tensorflow
-      - hopsmonitor::telegraf
       - hive2
+      - hops_airflow
+      - hops_airflow::sqoop
