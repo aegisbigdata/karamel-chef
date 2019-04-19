@@ -17,14 +17,18 @@ attrs:
     num_replicas: 2
     tls:
      enabled: true
-     certs_actor_class: "org.apache.hadoop.yarn.server.resourcemanager.security.DevHopsworksRMAppCertificateActions"
      crl_enabled: true
      crl_fetcher_class: "org.apache.hadoop.security.ssl.DevRemoteCRLFetcher"
      crl_fetcher_interval: "5m"
+    rmappsecurity:
+      actor_class: "org.apache.hadoop.yarn.server.resourcemanager.security.DevHopsworksRMAppSecurityActions"
     encrypt_data_transfer:
      enabled: false
   hopsworks:
-     encryption_password: "verysecurepassword"
+    encryption_password: "verysecurepassword"
+    kagent_liveness:
+      enabled: true
+      threshold: "40s"
 
 groups:
   namenodes:
@@ -43,7 +47,6 @@ groups:
       - hadoop_spark::yarn
       - hadoop_spark::historyserver
       - flink::yarn
-      - zeppelin
       - hopsworks
       - hopsworks::dev
       - hopsmonitor
@@ -51,11 +54,13 @@ groups:
       - hopslog
       - hopsmonitor::telegraf
       - hopslog::_filebeat-serving
+      - hopslog::_filebeat-kagent
       - kzookeeper
       - livy
       - hive2
       - kagent::dev
       - hops_airflow
+      - hops_airflow::sqoop
   datanode1:
     size: 1
     baremetal:
@@ -74,6 +79,7 @@ groups:
       - hadoop_spark::yarn
       - hopsmonitor::telegraf
       - hopslog::_filebeat-spark
+      - hopslog::_filebeat-kagent
       - tensorflow
   datanode2:
     size: 1
@@ -91,4 +97,5 @@ groups:
       - hadoop_spark::yarn
       - hopsmonitor::telegraf
       - hopslog::_filebeat-spark
+      - hopslog::_filebeat-kagent
       - tensorflow

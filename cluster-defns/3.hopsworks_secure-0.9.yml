@@ -5,7 +5,7 @@ baremetal:
 cookbooks:
   hopsworks:
     github: "logicalclocks/hopsworks-chef"
-    branch: "master"
+    branch: "0.9"
 
 attrs:
   install:
@@ -15,12 +15,16 @@ attrs:
       interface: enp0s8
   hops:
     num_replicas: 2
-    rmappsecurity:
-      actor_class: "org.apache.hadoop.yarn.server.resourcemanager.security.DevHopsworksRMAppSecurityActions"
+    tls:
+     enabled: true
+     certs_actor_class: "org.apache.hadoop.yarn.server.resourcemanager.security.DevHopsworksRMAppCertificateActions"
+     crl_enabled: true
+     crl_fetcher_class: "org.apache.hadoop.security.ssl.DevRemoteCRLFetcher"
+     crl_fetcher_interval: "5m"
+    encrypt_data_transfer:
+     enabled: false
   hopsworks:
-    kagent_liveness:
-      enabled: true
-      threshold: "40s"
+     encryption_password: "verysecurepassword"
 
 groups:
   namenodes:
@@ -40,17 +44,13 @@ groups:
       - hadoop_spark::historyserver
       - flink::yarn
       - hopsworks
-      - hopsworks::dev
       - hopsmonitor
       - tensorflow
       - hopslog
-      - hopsmonitor::telegraf
+      - hopslog::_filebeat-serving
       - kzookeeper
       - livy
       - hive2
-      - kagent::dev
-      - hopslog::_filebeat-serving
-      - hopslog::_filebeat-kagent
       - hops_airflow
       - hops_airflow::sqoop
   datanode1:
@@ -69,9 +69,7 @@ groups:
       - kzookeeper
       - epipe
       - hadoop_spark::yarn
-      - hopsmonitor::telegraf
       - hopslog::_filebeat-spark
-      - hopslog::_filebeat-kagent
       - tensorflow
   datanode2:
     size: 1
@@ -87,7 +85,5 @@ groups:
       - hops::nm
       - kkafka
       - hadoop_spark::yarn
-      - hopsmonitor::telegraf
       - hopslog::_filebeat-spark
-      - hopslog::_filebeat-kagent
       - tensorflow
