@@ -95,12 +95,7 @@ sudo chown -R osboxes:osboxes ~/.local/lib
 Follow the dela/README.md instructions
 
 ## Visualization libraries
-1. Highcharts
-```
-pip install --user python-highcharts
-```
-
-2. Hide Code Extension
+1. Hide Code Extension
 ```
 pip install --user hide_code
 ```
@@ -112,10 +107,6 @@ sudo jupyter nbextension enable --py hide_code --sys-prefix
 ```
 ```
 sudo jupyter serverextension enable --py hide_code --sys-prefix
-```
-3. Folium
-```
-pip install --user folium
 ```
 
 Folium might fail to display the map in the notebook due to CORS restrictions with iframes. To address this issue, edit the file `jupyter_notebook_config_template.py` to contain the following:
@@ -129,17 +120,20 @@ c.NotebookApp.tornado_settings = {
 ```
 Fixed in: https://github.com/aegisbigdata/hopsworks/commit/9ffd3098498fec5b8a89d7428467cfa43ef3522a
 
-4.
-```
-pip install --user pyarrow
-pip install --user fastparquet
-```
 
-5. QGrid (https://github.com/quantopian/qgrid)
+2. QGrid (https://github.com/quantopian/qgrid)
 ```
 sudo pip install qgrid
 sudo jupyter nbextension install --py qgrid --sys-prefix
 sudo jupyter nbextension enable --py qgrid --sys-prefix
+```
+3. 
+Install these libraries in both python 2.7 and 3.6 on all machines and add them to the variables table
+```
+python-highcharts
+folium
+termcolor
+requests
 ```
 
 ## Spark common lang lib fix:
